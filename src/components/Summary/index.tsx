@@ -19,6 +19,8 @@ export function Summary() {
     return accumulator
   }, {income: 0, outcome: 0, total: 0})
 
+  const isSummaryTotalIsPositive = summary.total > 0
+
   return(
     <SummaryContainer>
       <SummaryCard>
@@ -37,7 +39,7 @@ export function Summary() {
         <strong>{valueFormatter.format(summary.outcome)}</strong>
       </SummaryCard>
 
-      <SummaryCard variant="green">
+      <SummaryCard variant={isSummaryTotalIsPositive ? 'green' : 'red'}>
         <header>
           <span>Total</span>
           <CurrencyDollar  size={32} color='#fff'/>
