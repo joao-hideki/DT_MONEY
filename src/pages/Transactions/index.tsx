@@ -1,9 +1,30 @@
+import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "./components/SearchForm";
 import { PriceHighLight, TransactionsContainer, TransactionsTable } from "./styles";
 
+interface Transaction {
+  id: number;
+  description: string;
+  type: 'income' | 'outcome';
+  value: number,
+  category: string
+  createdAt: string
+}
+
 export function Transactions() {
+  const [transactions, setTransactions] = useState<Transaction[]>([])
+
+  useEffect(() => {
+    async function loadTransactions() {
+      const response = await fetch('http://localhost:3000/transactions')
+      const data = await response.json()
+      setTransactions(data)
+    }
+    loadTransactions()
+  }, [])
+
   return(
     <div>
       <Header />
@@ -12,22 +33,16 @@ export function Transactions() {
         <SearchForm />
         <TransactionsTable>
           <tbody>
-            <tr>
-              <td width="50%">Desenvolvimento de site</td>
-              <td>
-                <PriceHighLight variant="income">R$ 12.000,00</PriceHighLight>
-              </td>
-              <td>Venda</td>
-              <td>11/01/2023</td>
-            </tr>
-            <tr>
-              <td width="50%">Contas</td>
-              <td>
-              <PriceHighLight variant="outcome">- R$ 1.000,00</PriceHighLight>
-              </td>
-              <td>Gastos fixos</td>
-              <td>18/01/2023</td>
-            </tr>
+            {transactions.map(transaction => (
+              <tr key={transaction.id}>
+                <td width="50%">{transaction.description}</td>
+                <td>
+                  <PriceHighLight variant={transaction.type}>R$ {transaction.value}</PriceHighLight>
+                </td>
+                <td>{transaction.category}</td>
+                <td>{transaction.createdAt}</td>
+              </tr>
+            ))}
           </tbody>
         </TransactionsTable>
       </TransactionsContainer>
