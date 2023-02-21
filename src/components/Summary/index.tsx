@@ -1,4 +1,5 @@
 import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from 'phosphor-react'
+import { useMemo } from 'react'
 import { useContextSelector } from 'use-context-selector'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
 import { valueFormatter } from '../../utils/formatter'
@@ -9,20 +10,22 @@ export function Summary() {
     return context.transactions
   })
 
-  const summary = transactions.reduce(
-    (accumulator, transaction) => {
-      if (transaction.type === 'income') {
-        accumulator.income += transaction.value
-        accumulator.total += transaction.value
-      } else {
-        accumulator.outcome += transaction.value
-        accumulator.total -= transaction.value
-      }
+  const summary = useMemo(() => {
+    return transactions.reduce(
+      (accumulator, transaction) => {
+        if (transaction.type === 'income') {
+          accumulator.income += transaction.value
+          accumulator.total += transaction.value
+        } else {
+          accumulator.outcome += transaction.value
+          accumulator.total -= transaction.value
+        }
 
-      return accumulator
-    },
-    { income: 0, outcome: 0, total: 0 },
-  )
+        return accumulator
+      },
+      { income: 0, outcome: 0, total: 0 },
+    )
+  }, [transactions])
 
   const isSummaryTotalIsPositive = summary.total > 0
 
