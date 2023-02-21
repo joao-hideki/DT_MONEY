@@ -15,6 +15,22 @@
       "category": "Gastos Fixos",
       "value": 1500,
       "createdAt": "2023-02-10T18:34:50.777Z"
+    },
+    {
+      "category": "Alimentação",
+      "description": "Lanche",
+      "type": "outcome",
+      "value": 30,
+      "id": 3,
+      "createdAt": "2023-02-10T18:34:50.777Z"
+    },
+    {
+      "category": "Freelance",
+      "description": "Desenvolvimento de API",
+      "type": "income",
+      "value": 2000,
+      "createdAt": "2023-02-21T03:20:29.011Z",
+      "id": 4
     }
   ]
 }
